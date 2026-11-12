@@ -1,0 +1,18 @@
+periodo,indicador,descripcion,valor,umbral_ambar,umbral_rojo,nivel,semaforo,accion
+M03,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.30221113272906597,0.1,0.25,rojo,rojo,Vigilar de cerca
+M03,psi_variable_max,PSI más alto entre las variables del modelo,0.6741135443848678,0.1,0.25,rojo,rojo,Vigilar de cerca
+M03,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,14.600000000000001,5.0,10.0,rojo,rojo,Vigilar de cerca
+M03,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.14492453512044406,0.05,0.15,ámbar,rojo,Vigilar de cerca
+M03,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.2991765782250686,0.15,0.3,ámbar,rojo,Vigilar de cerca
+M04,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.354382848345836,0.1,0.2,rojo,rojo,Recalibrar
+M04,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.32433668801463855,0.15,0.3,rojo,rojo,Recalibrar
+M04,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.08424314558971924,0.05,0.1,ámbar,rojo,Recalibrar
+M04,caida_ks,KS de referencia menos KS del periodo,0.06355078189605373,0.05,0.1,ámbar,rojo,Recalibrar
+M04,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,2.0,1.0,3.0,ámbar,rojo,Recalibrar
+M05,psi_variable_max,PSI más alto entre las variables del modelo,0.27062824331332486,0.1,0.25,rojo,rojo,Revisar datos
+M05,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.10812119107429576,0.1,0.25,ámbar,rojo,Revisar datos
+M05,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.10089245847172412,0.1,0.2,ámbar,rojo,Revisar datos
+M05,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,1.0,1.0,3.0,ámbar,rojo,Revisar datos
+M05,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,9.849999999999998,5.0,10.0,ámbar,rojo,Revisar datos
+M06,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.18187315274549576,0.05,0.1,rojo,rojo,Redesarrollar
+M06,caida_ks,KS de referencia menos KS del periodo,0.12476214234193089,0.05,0.1,rojo,rojo,Redesarrollar

@@ -1,0 +1,55 @@
+periodo,indicador,descripcion,valor,umbral_ambar,umbral_rojo,nivel
+M01,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.005205159613520725,0.1,0.25,verde
+M01,psi_variable_max,PSI más alto entre las variables del modelo,0.010580783359081265,0.1,0.25,verde
+M01,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.009547884035540528,0.05,0.15,verde
+M01,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.042191683775914646,0.05,0.1,verde
+M01,caida_ks,KS de referencia menos KS del periodo,0.031752142177595255,0.05,0.1,verde
+M01,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.0,0.1,0.2,verde
+M01,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,0.0,1.0,3.0,verde
+M01,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,1.6000000000000014,5.0,10.0,verde
+M01,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.020128087831656094,0.15,0.3,verde
+M02,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.005870031721642554,0.1,0.25,verde
+M02,psi_variable_max,PSI más alto entre las variables del modelo,0.008025136760211136,0.1,0.25,verde
+M02,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.015226248626578301,0.05,0.15,verde
+M02,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.027375436366287476,0.05,0.1,verde
+M02,caida_ks,KS de referencia menos KS del periodo,0.035612177141393864,0.05,0.1,verde
+M02,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.0,0.1,0.2,verde
+M02,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,0.0,1.0,3.0,verde
+M02,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,2.2999999999999994,5.0,10.0,verde
+M02,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.01784080512351327,0.15,0.3,verde
+M03,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.30221113272906597,0.1,0.25,rojo
+M03,psi_variable_max,PSI más alto entre las variables del modelo,0.6741135443848678,0.1,0.25,rojo
+M03,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.14492453512044406,0.05,0.15,ámbar
+M03,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),-0.000763370552541609,0.05,0.1,verde
+M03,caida_ks,KS de referencia menos KS del periodo,-0.020228490533934385,0.05,0.1,verde
+M03,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.0,0.1,0.2,verde
+M03,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,0.0,1.0,3.0,verde
+M03,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,14.600000000000001,5.0,10.0,rojo
+M03,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.2991765782250686,0.15,0.3,ámbar
+M04,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.00668393184078637,0.1,0.25,verde
+M04,psi_variable_max,PSI más alto entre las variables del modelo,0.00869721157156747,0.1,0.25,verde
+M04,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.022351559945269214,0.05,0.15,verde
+M04,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.08424314558971924,0.05,0.1,ámbar
+M04,caida_ks,KS de referencia menos KS del periodo,0.06355078189605373,0.05,0.1,ámbar
+M04,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.354382848345836,0.1,0.2,rojo
+M04,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,2.0,1.0,3.0,ámbar
+M04,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,2.2999999999999994,5.0,10.0,verde
+M04,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.32433668801463855,0.15,0.3,rojo
+M05,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.10812119107429576,0.1,0.25,ámbar
+M05,psi_variable_max,PSI más alto entre las variables del modelo,0.27062824331332486,0.1,0.25,rojo
+M05,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.04686145382960694,0.05,0.15,verde
+M05,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.039378226050142295,0.05,0.1,verde
+M05,caida_ks,KS de referencia menos KS del periodo,0.03709120502659913,0.05,0.1,verde
+M05,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.10089245847172412,0.1,0.2,ámbar
+M05,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,1.0,1.0,3.0,ámbar
+M05,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,9.849999999999998,5.0,10.0,ámbar
+M05,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.026989935956084343,0.15,0.3,verde
+M06,psi_puntuacion,PSI de la PD predicha contra la muestra de referencia,0.006934993789175411,0.1,0.25,verde
+M06,psi_variable_max,PSI más alto entre las variables del modelo,0.009033478511013302,0.1,0.25,verde
+M06,csi_abs_max,CSI más alto en valor absoluto (unidades de logit),0.015042799847944823,0.05,0.15,verde
+M06,caida_gini,Gini de referencia menos Gini del periodo (puntos de Gini),0.18187315274549576,0.05,0.1,rojo
+M06,caida_ks,KS de referencia menos KS del periodo,0.12476214234193089,0.05,0.1,rojo
+M06,desv_calibracion,Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza,0.0,0.1,0.2,verde
+M06,bandas_rechazadas,Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia,0.0,1.0,3.0,verde
+M06,desplazamiento_rangos_pp,Mayor cambio en puntos porcentuales del peso de una banda de PD,2.5999999999999996,5.0,10.0,verde
+M06,cambio_tasa_relativo,Cambio relativo de la tasa de incumplimiento contra la referencia,0.03247941445562674,0.15,0.3,verde

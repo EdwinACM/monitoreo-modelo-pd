@@ -1,0 +1,7 @@
+periodo,escenario,semaforo,accion,motivo,indicadores_rojos,indicadores_ambar
+M01,Sin deriva,verde,Sin acción,Todos los indicadores están en verde.,0,0
+M02,Sin deriva,verde,Sin acción,Todos los indicadores están en verde.,0,0
+M03,Cambio de mezcla,rojo,Vigilar de cerca,"La población cambió de forma importante, aunque el desempeño sigue estable. Revisa el segmento nuevo y repite la medición el mes siguiente.",3,2
+M04,Deterioro de mora,rojo,Recalibrar,"El modelo todavía ordena el riesgo, pero la PD predicha ya no coincide con lo observado.",2,3
+M05,Ruptura de variable,rojo,Revisar datos,"Pocas variables cambiaron de forma abrupta mientras las demás siguen estables, un patrón típico de un problema en la fuente. Confirma que el dato llega bien. Si es correcto y el desempeño sigue bajando, evalúa redesarrollar.",1,4
+M06,Pérdida de poder,rojo,Redesarrollar,El modelo perdió poder para ordenar riesgo (Gini o KS en rojo) sin una falla clara de datos.,2,0

@@ -1,0 +1,235 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; style-src &#x27;unsafe-inline&#x27;; img-src data:; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Monitoreo del modelo de PD M06</title><style>
+:root{color-scheme:light dark;--fondo:#fff;--sup:#f5f5f7;--tinta:#1d1d1f;--suave:#6e6e73;--linea:rgba(0,0,0,.12);
+--acento:#0071e3;--rojo:#d70015;--ambar:#b25000;--ambar-f:#ff9f0a;--verde:#1d7a3a;
+--tv:rgba(29,122,58,.22);--ta:rgba(255,159,10,.30);--tr:rgba(215,0,21,.22);
+--vidrio:rgba(255,255,255,.72);--expo:cubic-bezier(.16,1,.3,1);--gut:clamp(20px,5vw,48px);
+--fuente:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+interpolate-size:allow-keywords}
+@media (prefers-color-scheme:dark){:root{--fondo:#000;--sup:#1c1c1e;--tinta:#f5f5f7;--suave:#a1a1a6;
+--linea:rgba(255,255,255,.16);--acento:#2997ff;--rojo:#ff453a;--ambar:#ff9f0a;--ambar-f:#ff9f0a;--verde:#30d158;
+--tv:rgba(48,209,88,.24);--ta:rgba(255,159,10,.30);--tr:rgba(255,69,58,.30);--vidrio:rgba(0,0,0,.66)}}
+*{box-sizing:border-box}
+html{scroll-padding-top:96px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:1rem/1.55 var(--fuente);
+-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+@media (prefers-color-scheme:dark){body{line-height:1.6;letter-spacing:.005em}}
+::selection{background:var(--acento);color:#fff}
+a{color:var(--acento);text-underline-offset:.2em}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--acento);outline-offset:3px;border-radius:6px}
+*{scrollbar-color:var(--suave) transparent}
+.col{max-width:1120px;margin:0 auto;padding-inline:var(--gut)}
+h1,h2,h3{font-family:var(--fuente);text-wrap:balance}
+h1{font-size:clamp(3.25rem,11.5vw,6rem);font-weight:700;letter-spacing:-.035em;line-height:1.02;margin:0 0 .28em}
+h2{font-size:clamp(1.875rem,4.4vw,2.75rem);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin:0 0 16px}
+h3{font-size:1.1875rem;font-weight:600;letter-spacing:-.015em;margin:0 0 4px}
+p{margin:0 0 12px}
+
+/* barra de navegación */
+.barra{position:fixed;inset:0 0 auto 0;z-index:10;background:var(--fondo);border-bottom:1px solid var(--linea)}
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+.barra{background:var(--vidrio);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px)}}
+.barra .col{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:52px}
+.marca{color:var(--tinta);font-weight:600;font-size:.9375rem;letter-spacing:-.01em;text-decoration:none;white-space:nowrap}
+.barra nav{display:flex;gap:4px;overflow-x:auto;min-width:0;max-width:calc(100% + 16px);scrollbar-width:none;margin-inline:-8px}
+.barra nav::-webkit-scrollbar{display:none}
+.barra nav a{color:var(--suave);font-size:.8125rem;font-weight:500;text-decoration:none;padding:8px;border-radius:8px;white-space:nowrap;transition:color .2s}
+.barra nav a:hover{color:var(--tinta)}
+@media (max-width:760px){.barra .col{width:100%;flex-direction:column;align-items:stretch;gap:0;padding-top:8px}
+.marca{font-size:.875rem}.barra nav{margin-inline:-8px;padding-bottom:2px}}
+
+/* portada */
+.hero{position:relative;padding:clamp(150px,17vw,210px) 0 clamp(48px,8vw,96px);isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;
+background:radial-gradient(60% 70% at 88% -5%,var(--nt,transparent),transparent 72%)}
+.hero.n-rojo{--nt:var(--tr)}.hero.n-ambar{--nt:var(--ta)}.hero.n-verde{--nt:var(--tv)}
+.porque{font-size:clamp(1.25rem,2.4vw,1.75rem);line-height:1.35;letter-spacing:-.015em;max-width:34em;margin:0 0 28px;text-wrap:pretty}
+.estado{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin:0 0 clamp(48px,8vw,88px)}
+.estado .sub{margin:0;color:var(--suave);font-size:.9375rem;max-width:62ch}
+.nivel-g{display:inline-flex;align-items:center;gap:8px;font-size:.8125rem;font-weight:600;padding:5px 14px 5px 11px;border-radius:999px;
+border:1px solid currentColor;white-space:nowrap}
+.nivel-g::before,.pt-n::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block;flex:none}
+.verde{color:var(--verde)}.ambar{color:var(--ambar)}.rojo{color:var(--rojo)}
+
+/* franja de cifras, rejilla asimetrica */
+.cifras{display:grid;grid-template-columns:1.75fr 1fr 1fr 1fr;gap:0 clamp(20px,3vw,40px);margin:0;align-items:end}
+.cifra{border-top:1px solid var(--tinta);padding-top:14px;margin:0}
+.cifra dt{color:var(--suave);font-size:.8125rem;font-weight:600;margin:0 0 6px}
+.cifra dd{margin:0}
+.cifra .n{display:block;font-size:clamp(2.25rem,5.4vw,3.5rem);font-weight:600;letter-spacing:-.035em;line-height:1.05}
+.cifra.mayor .n{font-size:clamp(3.5rem,9.5vw,6rem);font-weight:700;letter-spacing:-.04em;line-height:1}
+.cifra .ref{display:block;color:var(--suave);font-size:.8125rem;margin-top:8px}
+@media (max-width:760px){.cifras{grid-template-columns:1fr 1fr;gap:32px 24px}.cifra.mayor{grid-column:1/-1}}
+
+/* secciones */
+.sec{padding:clamp(56px,9vw,120px) 0 0;scroll-margin-top:72px}
+.sec>.col{background:linear-gradient(var(--linea),var(--linea)) top/100% 1px no-repeat;padding-top:clamp(40px,6vw,72px)}
+.cab p{color:var(--suave);font-size:1rem;max-width:56ch;margin:0 0 24px}
+.dividida{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:0 clamp(32px,5vw,72px);align-items:start}
+.dividida .cab{position:sticky;top:96px}
+@media (max-width:900px){.dividida{display:block}.dividida .cab{position:static}}
+.nota{color:var(--suave);font-size:.875rem;max-width:80ch;margin:20px 0 0}
+
+/* lista de semaforos */
+.lista{list-style:none;margin:0;padding:0}
+.ind{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr) 5.5rem;grid-template-areas:"n t v";gap:4px 28px;align-items:center;
+padding:22px 0;border-bottom:1px solid var(--linea)}
+.ind:first-child{padding-top:0}
+.ind .n{grid-area:n}.ind .t{grid-area:t}.ind .v{grid-area:v;text-align:right}
+.ind h3{font-size:1.0625rem;margin:0}
+.ind .d{display:block;color:var(--suave);font-size:.875rem;line-height:1.4;margin-top:4px}
+.ind .v b{display:block;font-size:1.75rem;font-weight:600;letter-spacing:-.03em;line-height:1.1}
+.ind .v span{font-size:.8125rem;font-weight:600}
+.pista{position:relative;height:50px;container-type:inline-size;margin-inline:8px}
+.riel{position:absolute;inset:14px 0 auto 0;height:8px;border-radius:4px;
+background:linear-gradient(90deg,var(--tv) calc(var(--a)*1%),var(--ta) calc(var(--a)*1%),var(--ta) calc(var(--r)*1%),var(--tr) calc(var(--r)*1%))}
+.tk{position:absolute;top:10px;height:16px;width:1px;background:var(--suave)}
+.tk.a{left:calc(var(--a)*1%)}.tk.r{left:calc(var(--r)*1%)}
+.tl{position:absolute;top:29px;transform:translateX(-50%);font-size:.8125rem;color:var(--suave);white-space:nowrap}
+.tl.a{left:calc(var(--a)*1%);color:var(--ambar)}.tl.r{left:calc(var(--r)*1%);color:var(--rojo)}
+.mk{position:absolute;top:11px;left:0;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--c);
+border:2px solid var(--fondo);box-shadow:0 1px 3px rgba(0,0,0,.35);translate:calc(var(--v)*1cqw) 0}
+.mk.verde{--c:var(--verde)}.mk.ambar{--c:var(--ambar-f)}.mk.rojo{--c:var(--rojo)}
+.mk.rojo::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--rojo);opacity:0}
+@media (max-width:640px){.ind{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n v" "t t";gap:6px 16px;padding:20px 0}
+.ind .v b{font-size:1.5rem}}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--acento);font-weight:600;padding:14px 0;list-style:none;display:flex;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";width:8px;height:8px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);
+transition:transform .35s var(--expo)}
+details[open] summary::after{transform:rotate(-135deg) translate(-1px,-1px)}
+@supports selector(::details-content){
+details::details-content{block-size:0;overflow:clip;opacity:0;transition:block-size .5s var(--expo),opacity .35s ease,content-visibility .5s allow-discrete}
+details[open]::details-content{block-size:auto;opacity:1}}
+
+/* tablas, lineas finas */
+.envoltura{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9375rem}
+th,td{padding:12px 14px;border-bottom:1px solid var(--linea);text-align:right;vertical-align:top}
+th{color:var(--suave);font-weight:600;font-size:.8125rem;border-bottom-color:var(--tinta);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;padding-left:0}th:last-child,td:last-child{padding-right:0}
+td{white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background-color .2s}
+@media (hover:hover){tbody tr:hover{background:var(--sup)}}
+td.nivel{font-weight:600}
+.pt-n{display:inline-flex;align-items:center;gap:8px}
+@media (max-width:640px){
+.envoltura{overflow:visible}
+table,tbody,tr,td{display:block}
+thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+tr{padding:14px 0;border-bottom:1px solid var(--linea)}tbody tr:last-child{border-bottom:0}
+td{display:flex;justify-content:space-between;gap:20px;border:0;padding:3px 0;white-space:normal;text-align:right}
+td::before{content:attr(data-l);color:var(--suave);font-size:.8125rem;text-align:left;flex:none}
+td:first-child{font-size:1.0625rem;font-weight:600;padding-bottom:6px}td:first-child::before{content:none}
+td:empty{display:none}
+th:first-child,td:first-child{padding-left:0}}
+
+/* graficas fluidas: texto en HTML a 13 px, trazos en SVG sin escalar */
+.graf{margin:0 0 clamp(48px,7vw,80px)}
+.graf:last-child{margin-bottom:0}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px 24px;margin:0 0 20px;color:var(--suave);font-size:.8125rem}
+.leyenda span{display:inline-flex;align-items:center;gap:8px}
+.leyenda i{width:18px;height:3px;border-radius:2px;background:var(--c)}
+.leyenda b{color:var(--tinta);font-weight:600}
+.c-acento{--c:var(--acento)}.c-suave{--c:var(--suave)}.c-rojo{--c:var(--rojo)}.c-ambar{--c:var(--ambar-f)}
+.plot{position:relative;height:clamp(230px,30vw,340px);margin:6px 0 44px 46px}
+.plot>*{position:absolute}
+.gl{left:0;right:0;height:1px;background:var(--linea)}
+.ey,.ex,.um-t{font-size:.8125rem;line-height:1;color:var(--suave);white-space:nowrap}
+.ey{right:100%;margin-right:10px;transform:translateY(-50%)}
+.um-t.c-rojo{color:var(--rojo)}.um-t.c-ambar{color:var(--ambar)}.um-t.c-suave{color:var(--suave)}
+.zona{left:0;right:0;background:var(--c);opacity:.14}
+.zona.c-rojo{opacity:.10}
+.um{left:0;right:0;height:0;border-top:1.5px dashed var(--c)}
+.um-t{right:0;transform:translateY(calc(-100% - 6px));font-weight:600;
+text-shadow:0 0 6px var(--fondo),0 0 3px var(--fondo)}
+.lienzo{inset:0 18px}
+.lienzo>*{position:absolute}
+.trazos{inset:0;width:100%;height:100%;overflow:visible}
+.trazos polyline{fill:none;stroke:var(--c);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.ic{width:2px;margin-left:-1px;background:var(--c);opacity:.45;border-radius:1px}
+.pt{width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:var(--c);border:2px solid var(--fondo);box-sizing:content-box;
+transition:transform .25s var(--expo)}
+.pt::before{content:"";position:absolute;inset:-9px}
+.pt:hover{transform:scale(1.5)}
+.pt::after{content:attr(data-v);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);padding:4px 8px;border-radius:8px;
+background:var(--tinta);color:var(--fondo);font-size:.8125rem;font-weight:600;white-space:nowrap;display:none;pointer-events:none;z-index:3}
+.pt:hover::after{display:block}
+.pt.ult::after{left:auto;right:-6px;transform:none}
+.ex{top:100%;margin-top:12px;transform:translateX(-50%)}
+@media (max-width:640px){.plot{margin-left:42px;height:240px}.ex.salto{display:none}}
+
+.cierre p{max-width:62ch;font-size:1.0625rem}
+.pie{height:clamp(56px,9vw,120px)}
+
+/* movimiento: solo si el usuario no pidio reducirlo; el contenido es visible por defecto */
+@media (prefers-reduced-motion:no-preference){
+html{scroll-behavior:smooth}
+@keyframes sube{from{opacity:0;transform:translateY(22px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes pulso{0%{transform:scale(.7);opacity:.55}70%,100%{transform:scale(1.7);opacity:0}}
+@keyframes pulsoc{0%{box-shadow:0 0 0 0 currentColor}70%,100%{box-shadow:0 0 0 7px transparent}}
+@keyframes trazo{from{stroke-dashoffset:2400px}to{stroke-dashoffset:0}}
+@keyframes entra{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
+@keyframes desliza{from{translate:0 0}}
+@keyframes velo{from{opacity:0}}
+.hero .e{animation:sube 1.05s var(--expo) both;animation-delay:calc(var(--d,0)*110ms)}
+.nivel-g.rojo::before{animation:pulsoc 2.4s ease-out infinite}
+.mk.rojo::after{animation:pulso 2.4s ease-out infinite}
+.barra{animation:velo .8s ease both}
+@supports (animation-timeline:view()){
+.rev{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+.ind .mk{animation:desliza linear both;animation-timeline:view();animation-range:entry 10% entry 90%}
+.plot{view-timeline-name:--g}
+.trazos polyline{stroke-dasharray:2400px;animation:trazo linear both;animation-timeline:--g;animation-range:entry 0% entry 85%}
+.pt,.ic{animation:velo linear both;animation-timeline:--g;animation-range:entry 55% entry 100%}
+}}
+
+@media print{
+:root{--fondo:#fff;--sup:#f5f5f7;--tinta:#000;--suave:#444;--linea:rgba(0,0,0,.25)}
+*,*::before,*::after{animation:none!important;transition:none!important}
+.barra{display:none}
+.hero{padding-top:0}.hero::before{display:none}
+.sec{padding-top:32px}
+.col{max-width:none;padding-inline:0}
+.dividida{display:block}.dividida .cab{position:static}
+.graf,.ind,tr,.cifra{break-inside:avoid}
+.pt::after{display:none}
+details::details-content{block-size:auto;opacity:1;content-visibility:visible}
+summary{color:var(--tinta)}
+}
+body:has(#resumen:target) .barra nav a[href="#resumen"]{color:var(--tinta)}
+body:has(#semaforos:target) .barra nav a[href="#semaforos"]{color:var(--tinta)}
+body:has(#tendencia:target) .barra nav a[href="#tendencia"]{color:var(--tinta)}
+body:has(#cifras:target) .barra nav a[href="#cifras"]{color:var(--tinta)}
+body:has(#bandas:target) .barra nav a[href="#bandas"]{color:var(--tinta)}
+body:has(#variables:target) .barra nav a[href="#variables"]{color:var(--tinta)}
+body:has(#historial:target) .barra nav a[href="#historial"]{color:var(--tinta)}
+</style></head><body><header class="barra"><div class="col"><a class="marca" href="#resumen">Monitoreo del modelo de PD: M06</a><nav aria-label="Secciones"><a href="#resumen">Resumen</a><a href="#semaforos">Semáforos</a><a href="#tendencia">Tendencia</a><a href="#cifras">Cifras</a><a href="#bandas">Bandas</a><a href="#variables">Variables</a><a href="#historial">Historial</a></nav></div></header><main><section class="hero n-rojo" id="resumen"><div class="col"><h1 class="e">Redesarrollar</h1><p class="porque e" style="--d:1">El modelo perdió poder para ordenar riesgo (Gini o KS en rojo) sin una falla clara de datos.</p><div class="estado e" style="--d:2"><span class="nivel-g rojo">Semáforo rojo</span><p class="sub">Escenario simulado: Pérdida de poder. 35% de las etiquetas se sustituye por un sorteo con la tasa base. Datos públicos de UCI con deriva inducida; no hay información de ningún banco.</p></div><dl class="cifras"><div class="cifra mayor e" style="--d:3"><dt>Gini</dt><dd><span class="n">0.336</span><span class="ref">Referencia 0.518</span></dd></div><div class="cifra e" style="--d:4"><dt>KS</dt><dd><span class="n">0.302</span><span class="ref">Referencia 0.427</span></dd></div><div class="cifra e" style="--d:5"><dt>Tasa observada</dt><dd><span class="n">21.1%</span><span class="ref">Referencia 21.9%</span></dd></div><div class="cifra e" style="--d:6"><dt>PD predicha media</dt><dd><span class="n">22.5%</span><span class="ref">Referencia 21.9%</span></dd></div></dl></div></section><section class="sec" id="semaforos"><div class="col dividida">
+<div class="cab"><h2>Semáforos del periodo</h2>
+<p>PSI mide cuánto se movió la distribución frente a la referencia. CSI reparte ese movimiento por variable.
+KS y Gini miden qué tan bien separa el modelo a quienes incumplen de quienes no. La calibración compara la PD predicha con la tasa que ocurrió.</p>
+<p>En cada escala, las marcas señalan dónde empieza el ámbar y el rojo, y el punto es el valor del periodo.</p></div>
+<div><ul class="lista"><li class="ind rev"><div class="n"><h3>Caída del Gini</h3><span class="d">Gini de referencia menos Gini del periodo (puntos de Gini)</span></div><div class="t"><div class="pista" role="img" aria-label="Caída del Gini: 0.182; ámbar desde 0.050, rojo desde 0.100" style="--a:33.33;--r:66.67;--v:100.00"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">0.050</span><span class="tl r">0.100</span><i class="mk rojo"></i></div></div><div class="v"><b>0.182</b><span class="rojo">rojo</span></div></li><li class="ind rev"><div class="n"><h3>Caída del KS</h3><span class="d">KS de referencia menos KS del periodo</span></div><div class="t"><div class="pista" role="img" aria-label="Caída del KS: 0.125; ámbar desde 0.050, rojo desde 0.100" style="--a:33.33;--r:66.67;--v:83.17"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">0.050</span><span class="tl r">0.100</span><i class="mk rojo"></i></div></div><div class="v"><b>0.125</b><span class="rojo">rojo</span></div></li></ul><details><summary>Indicadores en verde (7)</summary><ul class="lista"><li class="ind rev"><div class="n"><h3>PSI de la puntuación</h3><span class="d">PSI de la PD predicha contra la muestra de referencia</span></div><div class="t"><div class="pista" role="img" aria-label="PSI de la puntuación: 0.007; ámbar desde 0.100, rojo desde 0.250" style="--a:26.67;--r:66.67;--v:1.85"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">0.100</span><span class="tl r">0.250</span><i class="mk verde"></i></div></div><div class="v"><b>0.007</b><span class="verde">verde</span></div></li><li class="ind rev"><div class="n"><h3>PSI máximo de variables</h3><span class="d">PSI más alto entre las variables del modelo</span></div><div class="t"><div class="pista" role="img" aria-label="PSI máximo de variables: 0.009; ámbar desde 0.100, rojo desde 0.250" style="--a:26.67;--r:66.67;--v:2.41"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">0.100</span><span class="tl r">0.250</span><i class="mk verde"></i></div></div><div class="v"><b>0.009</b><span class="verde">verde</span></div></li><li class="ind rev"><div class="n"><h3>CSI máximo (absoluto)</h3><span class="d">CSI más alto en valor absoluto (unidades de logit)</span></div><div class="t"><div class="pista" role="img" aria-label="CSI máximo (absoluto): 0.015; ámbar desde 0.050, rojo desde 0.150" style="--a:22.22;--r:66.67;--v:6.69"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">0.050</span><span class="tl r">0.150</span><i class="mk verde"></i></div></div><div class="v"><b>0.015</b><span class="verde">verde</span></div></li><li class="ind rev"><div class="n"><h3>Desviación de calibración</h3><span class="d">Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza</span></div><div class="t"><div class="pista" role="img" aria-label="Desviación de calibración: 0.0%; ámbar desde 10.0%, rojo desde 20.0%" style="--a:33.33;--r:66.67;--v:0.00"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">10.0%</span><span class="tl r">20.0%</span><i class="mk verde"></i></div></div><div class="v"><b>0.0%</b><span class="verde">verde</span></div></li><li class="ind rev"><div class="n"><h3>Bandas nuevas rechazadas</h3><span class="d">Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia</span></div><div class="t"><div class="pista" role="img" aria-label="Bandas nuevas rechazadas: 0; ámbar desde 1, rojo desde 3" style="--a:22.22;--r:66.67;--v:0.00"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">1</span><span class="tl r">3</span><i class="mk verde"></i></div></div><div class="v"><b>0</b><span class="verde">verde</span></div></li><li class="ind rev"><div class="n"><h3>Cambio de rangos (pp)</h3><span class="d">Mayor cambio en puntos porcentuales del peso de una banda de PD</span></div><div class="t"><div class="pista" role="img" aria-label="Cambio de rangos (pp): 2.6; ámbar desde 5.0, rojo desde 10.0" style="--a:33.33;--r:66.67;--v:17.33"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">5.0</span><span class="tl r">10.0</span><i class="mk verde"></i></div></div><div class="v"><b>2.6</b><span class="verde">verde</span></div></li><li class="ind rev"><div class="n"><h3>Cambio de la tasa de incumplimiento</h3><span class="d">Cambio relativo de la tasa de incumplimiento contra la referencia</span></div><div class="t"><div class="pista" role="img" aria-label="Cambio de la tasa de incumplimiento: 3.2%; ámbar desde 15.0%, rojo desde 30.0%" style="--a:33.33;--r:66.67;--v:7.22"><div class="riel"></div><i class="tk a"></i><i class="tk r"></i><span class="tl a">15.0%</span><span class="tl r">30.0%</span><i class="mk verde"></i></div></div><div class="v"><b>3.2%</b><span class="verde">verde</span></div></li></ul></details></div></div></section><section class="sec" id="tendencia"><div class="col ">
+<div class="cab"><h2>Tendencia</h2></div>
+<figure class="graf rev" style="margin-inline:0"><div class="cab"><h3>PSI por periodo</h3><p>Qué tanto cambió la población o la puntuación frente a la referencia; más alto, más cambio.</p></div><div class="leyenda"><span class="c-acento"><i></i>Puntuación <b>0.007</b></span><span class="c-suave"><i></i>Variable con más cambio <b>0.009</b></span></div><div class="plot" role="img" aria-label="PSI por periodo. Puntuación: M01 0.01, M02 0.01, M03 0.30, M04 0.01, M05 0.11, M06 0.01; Variable con más cambio: M01 0.01, M02 0.01, M03 0.67, M04 0.01, M05 0.27, M06 0.01"><i class="gl" style="top:100.00%"></i><span class="ey" style="top:100.00%">0.00</span><i class="gl" style="top:75.00%"></i><span class="ey" style="top:75.00%">0.18</span><i class="gl" style="top:50.00%"></i><span class="ey" style="top:50.00%">0.35</span><i class="gl" style="top:25.00%"></i><span class="ey" style="top:25.00%">0.53</span><i class="gl" style="top:0.00%"></i><span class="ey" style="top:0.00%">0.71</span><i class="zona c-ambar" style="top:64.68%;height:21.19%"></i><i class="zona c-rojo" style="top:0.00%;height:64.68%"></i><i class="um c-ambar" style="top:85.87%"></i><span class="um-t c-ambar" style="top:85.87%">ámbar</span><i class="um c-rojo" style="top:64.68%"></i><span class="um-t c-rojo" style="top:64.68%">rojo</span><div class="lienzo"><svg class="trazos c-acento" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,99.26 20.00,99.17 40.00,57.30 60.00,99.06 80.00,84.72 100.00,99.02" pathLength="1"/></svg><i class="pt c-acento" style="left:0.00%;top:99.26%" data-v="M01: 0.01"></i><i class="pt c-acento" style="left:20.00%;top:99.17%" data-v="M02: 0.01"></i><i class="pt c-acento" style="left:40.00%;top:57.30%" data-v="M03: 0.30"></i><i class="pt c-acento" style="left:60.00%;top:99.06%" data-v="M04: 0.01"></i><i class="pt c-acento" style="left:80.00%;top:84.72%" data-v="M05: 0.11"></i><i class="pt ult c-acento" style="left:100.00%;top:99.02%" data-v="M06: 0.01"></i><svg class="trazos c-suave" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,98.51 20.00,98.87 40.00,4.76 60.00,98.77 80.00,61.77 100.00,98.72" pathLength="1"/></svg><i class="pt c-suave" style="left:0.00%;top:98.51%" data-v="M01: 0.01"></i><i class="pt c-suave" style="left:20.00%;top:98.87%" data-v="M02: 0.01"></i><i class="pt c-suave" style="left:40.00%;top:4.76%" data-v="M03: 0.67"></i><i class="pt c-suave" style="left:60.00%;top:98.77%" data-v="M04: 0.01"></i><i class="pt c-suave" style="left:80.00%;top:61.77%" data-v="M05: 0.27"></i><i class="pt ult c-suave" style="left:100.00%;top:98.72%" data-v="M06: 0.01"></i><span class="ex" style="left:0.00%">M01</span><span class="ex" style="left:20.00%">M02</span><span class="ex" style="left:40.00%">M03</span><span class="ex" style="left:60.00%">M04</span><span class="ex" style="left:80.00%">M05</span><span class="ex" style="left:100.00%">M06</span></div></div></figure><figure class="graf rev" style="margin-inline:0"><div class="cab"><h3>Gini con intervalo</h3><p>Capacidad del modelo para ordenar a buenos y malos pagadores; la barra vertical es el intervalo de confianza.</p></div><div class="leyenda"><span class="c-acento"><i></i>Gini <b>0.336</b></span></div><div class="plot" role="img" aria-label="Gini con intervalo. Gini: M01 0.48, M02 0.49, M03 0.52, M04 0.43, M05 0.48, M06 0.34"><i class="gl" style="top:100.00%"></i><span class="ey" style="top:100.00%">0.00</span><i class="gl" style="top:75.00%"></i><span class="ey" style="top:75.00%">0.17</span><i class="gl" style="top:50.00%"></i><span class="ey" style="top:50.00%">0.35</span><i class="gl" style="top:25.00%"></i><span class="ey" style="top:25.00%">0.52</span><i class="gl" style="top:0.00%"></i><span class="ey" style="top:0.00%">0.70</span><i class="zona c-ambar" style="top:33.17%;height:7.14%"></i><i class="zona c-rojo" style="top:40.31%;height:59.69%"></i><i class="um c-suave" style="top:26.03%"></i><span class="um-t c-suave" style="top:26.03%">referencia</span><i class="um c-rojo" style="top:40.31%"></i><span class="um-t c-rojo" style="top:40.31%">rojo</span><div class="lienzo"><svg class="trazos c-acento" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,32.05 20.00,29.94 40.00,25.92 60.00,38.06 80.00,31.65 100.00,52.01" pathLength="1"/></svg><i class="ic c-acento" style="left:0.00%;top:23.67%;height:16.43%"></i><i class="ic c-acento" style="left:20.00%;top:21.86%;height:16.86%"></i><i class="ic c-acento" style="left:40.00%;top:19.08%;height:12.93%"></i><i class="ic c-acento" style="left:60.00%;top:29.64%;height:16.61%"></i><i class="ic c-acento" style="left:80.00%;top:22.78%;height:14.97%"></i><i class="ic c-acento" style="left:100.00%;top:42.29%;height:19.63%"></i><i class="pt c-acento" style="left:0.00%;top:32.05%" data-v="M01: 0.48"></i><i class="pt c-acento" style="left:20.00%;top:29.94%" data-v="M02: 0.49"></i><i class="pt c-acento" style="left:40.00%;top:25.92%" data-v="M03: 0.52"></i><i class="pt c-acento" style="left:60.00%;top:38.06%" data-v="M04: 0.43"></i><i class="pt c-acento" style="left:80.00%;top:31.65%" data-v="M05: 0.48"></i><i class="pt ult c-acento" style="left:100.00%;top:52.01%" data-v="M06: 0.34"></i><span class="ex" style="left:0.00%">M01</span><span class="ex" style="left:20.00%">M02</span><span class="ex" style="left:40.00%">M03</span><span class="ex" style="left:60.00%">M04</span><span class="ex" style="left:80.00%">M05</span><span class="ex" style="left:100.00%">M06</span></div></div></figure><figure class="graf rev" style="margin-inline:0"><div class="cab"><h3>PD predicha y tasa observada</h3><p>Calibración: si lo que el modelo predice se parece a lo que realmente ocurrió.</p></div><div class="leyenda"><span class="c-rojo"><i></i>Observada <b>21%</b></span><span class="c-acento"><i></i>Predicha <b>22%</b></span></div><div class="plot" role="img" aria-label="PD predicha y tasa observada. Observada: M01 22%, M02 22%, M03 28%, M04 29%, M05 22%, M06 21%; Predicha: M01 22%, M02 22%, M03 27%, M04 21%, M05 20%, M06 22%"><i class="gl" style="top:100.00%"></i><span class="ey" style="top:100.00%">0%</span><i class="gl" style="top:75.00%"></i><span class="ey" style="top:75.00%">10%</span><i class="gl" style="top:50.00%"></i><span class="ey" style="top:50.00%">20%</span><i class="gl" style="top:25.00%"></i><span class="ey" style="top:25.00%">30%</span><i class="gl" style="top:0.00%"></i><span class="ey" style="top:0.00%">40%</span><div class="lienzo"><svg class="trazos c-rojo" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,44.25 20.00,44.38 40.00,29.00 60.00,27.63 80.00,43.88 100.00,47.13" pathLength="1"/></svg><i class="pt c-rojo" style="left:0.00%;top:44.25%" data-v="M01: 22%"></i><i class="pt c-rojo" style="left:20.00%;top:44.38%" data-v="M02: 22%"></i><i class="pt c-rojo" style="left:40.00%;top:29.00%" data-v="M03: 28%"></i><i class="pt c-rojo" style="left:60.00%;top:27.63%" data-v="M04: 29%"></i><i class="pt c-rojo" style="left:80.00%;top:43.88%" data-v="M05: 22%"></i><i class="pt ult c-rojo" style="left:100.00%;top:47.13%" data-v="M06: 21%"></i><svg class="trazos c-acento" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="0.00,45.90 20.00,44.00 40.00,33.70 60.00,46.56 80.00,49.02 100.00,43.84" pathLength="1"/></svg><i class="pt c-acento" style="left:0.00%;top:45.90%" data-v="M01: 22%"></i><i class="pt c-acento" style="left:20.00%;top:44.00%" data-v="M02: 22%"></i><i class="pt c-acento" style="left:40.00%;top:33.70%" data-v="M03: 27%"></i><i class="pt c-acento" style="left:60.00%;top:46.56%" data-v="M04: 21%"></i><i class="pt c-acento" style="left:80.00%;top:49.02%" data-v="M05: 20%"></i><i class="pt ult c-acento" style="left:100.00%;top:43.84%" data-v="M06: 22%"></i><span class="ex" style="left:0.00%">M01</span><span class="ex" style="left:20.00%">M02</span><span class="ex" style="left:40.00%">M03</span><span class="ex" style="left:60.00%">M04</span><span class="ex" style="left:80.00%">M05</span><span class="ex" style="left:100.00%">M06</span></div></div></figure></div></section><section class="sec" id="cifras"><div class="col dividida">
+<div class="cab"><h2>Cifras contra la referencia</h2></div>
+<div><div class="envoltura rev"><table><thead><tr><th>Medida</th><th>Periodo</th><th>Referencia</th></tr></thead><tbody><tr><td data-l="Medida">Clientes</td><td data-l="Periodo">2,000</td><td data-l="Referencia">5,000</td></tr><tr><td data-l="Medida">Incumplimientos</td><td data-l="Periodo">423</td><td data-l="Referencia">1,093</td></tr><tr><td data-l="Medida">Tasa observada</td><td data-l="Periodo">21.1% (19.4% a 23.0%)</td><td data-l="Referencia">21.9%</td></tr><tr><td data-l="Medida">PD predicha media</td><td data-l="Periodo">22.5%</td><td data-l="Referencia">21.9%</td></tr><tr><td data-l="Medida">AUC</td><td data-l="Periodo">0.668 (0.633 a 0.702)</td><td data-l="Referencia">0.759 (0.740 a 0.775)</td></tr><tr><td data-l="Medida">Gini</td><td data-l="Periodo">0.336 (0.267 a 0.404)</td><td data-l="Referencia">0.518 (0.479 a 0.551)</td></tr><tr><td data-l="Medida">KS</td><td data-l="Periodo">0.302 (0.258 a 0.368)</td><td data-l="Referencia">0.427 (0.396 a 0.459)</td></tr></tbody></table></div>
+<p class="nota rev">AUC es la probabilidad de que el modelo asigne más riesgo a un cliente que incumple que a uno que no.
+La referencia son 5,000 clientes que el modelo no vio en el entrenamiento.
+Los intervalos del AUC, el Gini y el KS son bootstrap de 95%; el de la tasa es de Wilson.</p></div></div></section><section class="sec" id="bandas"><div class="col ">
+<div class="cab"><h2>Calibración y estabilidad de rangos por banda de PD</h2></div>
+<div class="envoltura rev"><table><thead><tr><th>Banda</th><th>Clientes</th><th>Peso en referencia</th><th>Peso en el periodo</th><th>PD predicha</th><th>Tasa observada</th><th>Intervalo de la tasa</th><th>Valor p binomial</th><th>Resultado</th></tr></thead><tbody><tr><td data-l="Banda">B1</td><td data-l="Clientes">385</td><td data-l="Peso en referencia">20.0%</td><td data-l="Peso en el periodo">19.2%</td><td data-l="PD predicha">9.8%</td><td data-l="Tasa observada">12.7%</td><td data-l="Intervalo de la tasa">9.8% a 16.4%</td><td data-l="Valor p binomial">0.058</td><td data-l="Resultado"></td></tr><tr><td data-l="Banda">B2</td><td data-l="Clientes">391</td><td data-l="Peso en referencia">20.0%</td><td data-l="Peso en el periodo">19.6%</td><td data-l="PD predicha">12.4%</td><td data-l="Tasa observada">14.6%</td><td data-l="Intervalo de la tasa">11.4% a 18.4%</td><td data-l="Valor p binomial">0.192</td><td data-l="Resultado">rechazada desde la referencia</td></tr><tr><td data-l="Banda">B3</td><td data-l="Clientes">398</td><td data-l="Peso en referencia">20.0%</td><td data-l="Peso en el periodo">19.9%</td><td data-l="PD predicha">14.6%</td><td data-l="Tasa observada">13.8%</td><td data-l="Intervalo de la tasa">10.8% a 17.6%</td><td data-l="Valor p binomial">0.723</td><td data-l="Resultado"></td></tr><tr><td data-l="Banda">B4</td><td data-l="Clientes">374</td><td data-l="Peso en referencia">20.0%</td><td data-l="Peso en el periodo">18.7%</td><td data-l="PD predicha">21.3%</td><td data-l="Tasa observada">18.2%</td><td data-l="Intervalo de la tasa">14.6% a 22.4%</td><td data-l="Valor p binomial">0.147</td><td data-l="Resultado"></td></tr><tr><td data-l="Banda">B5</td><td data-l="Clientes">452</td><td data-l="Peso en referencia">20.0%</td><td data-l="Peso en el periodo">22.6%</td><td data-l="PD predicha">49.9%</td><td data-l="Tasa observada">42.9%</td><td data-l="Intervalo de la tasa">38.4% a 47.5%</td><td data-l="Valor p binomial">0.003</td><td data-l="Resultado">rechazada desde la referencia</td></tr></tbody></table></div>
+<p class="nota rev">Las 5 bandas son quintiles de la PD en la muestra de referencia. La prueba binomial compara los incumplimientos observados con la PD media predicha de la banda;
+rechaza con valor p menor que 0.010 (alfa 0.05 entre 5 bandas).
+Prueba global del periodo: valor p 0.164. Bandas con orden de riesgo invertido respecto a la anterior: 1.</p></div></section><section class="sec" id="variables"><div class="col ">
+<div class="cab"><h2>Estabilidad de las variables</h2></div>
+<div class="envoltura rev"><table><thead><tr><th>Variable</th><th>PSI</th><th>CSI</th><th>Media en desarrollo</th><th>Media en el periodo</th><th>Nivel del PSI</th></tr></thead><tbody><tr><td data-l="Variable">razon_pago</td><td data-l="PSI">0.009</td><td data-l="CSI">+0.004</td><td data-l="Media en desarrollo">0.395</td><td data-l="Media en el periodo">0.404</td><td data-l="Nivel del PSI" class="nivel verde"><span class="pt-n">verde</span></td></tr><tr><td data-l="Variable">mora_sep</td><td data-l="PSI">0.008</td><td data-l="CSI">+0.015</td><td data-l="Media en desarrollo">-0.017</td><td data-l="Media en el periodo">0.013</td><td data-l="Nivel del PSI" class="nivel verde"><span class="pt-n">verde</span></td></tr><tr><td data-l="Variable">uso_sep</td><td data-l="PSI">0.004</td><td data-l="CSI">+0.001</td><td data-l="Media en desarrollo">0.425</td><td data-l="Media en el periodo">0.435</td><td data-l="Nivel del PSI" class="nivel verde"><span class="pt-n">verde</span></td></tr><tr><td data-l="Variable">limite_log</td><td data-l="PSI">0.003</td><td data-l="CSI">-0.003</td><td data-l="Media en desarrollo">11.662</td><td data-l="Media en el periodo">11.662</td><td data-l="Nivel del PSI" class="nivel verde"><span class="pt-n">verde</span></td></tr><tr><td data-l="Variable">meses_con_atraso</td><td data-l="PSI">0.002</td><td data-l="CSI">+0.013</td><td data-l="Media en desarrollo">0.829</td><td data-l="Media en el periodo">0.876</td><td data-l="Nivel del PSI" class="nivel verde"><span class="pt-n">verde</span></td></tr></tbody></table></div>
+<p class="nota rev">El CSI está en unidades de logit: cuánto movió el cambio de población a la puntuación del modelo, con signo.</p></div></section><section class="sec" id="historial"><div class="col ">
+<div class="cab"><h2>Historial</h2></div>
+<div class="envoltura rev"><table><thead><tr><th>Periodo</th><th>Escenario</th><th>Semáforo</th><th>Acción</th><th>Rojos</th><th>Ámbar</th></tr></thead><tbody><tr><td data-l="Periodo">M01</td><td data-l="Escenario">Sin deriva</td><td data-l="Semáforo" class="nivel verde"><span class="pt-n">verde</span></td><td data-l="Acción">Sin acción</td><td data-l="Rojos">0</td><td data-l="Ámbar">0</td></tr><tr><td data-l="Periodo">M02</td><td data-l="Escenario">Sin deriva</td><td data-l="Semáforo" class="nivel verde"><span class="pt-n">verde</span></td><td data-l="Acción">Sin acción</td><td data-l="Rojos">0</td><td data-l="Ámbar">0</td></tr><tr><td data-l="Periodo">M03</td><td data-l="Escenario">Cambio de mezcla</td><td data-l="Semáforo" class="nivel rojo"><span class="pt-n">rojo</span></td><td data-l="Acción">Vigilar de cerca</td><td data-l="Rojos">3</td><td data-l="Ámbar">2</td></tr><tr><td data-l="Periodo">M04</td><td data-l="Escenario">Deterioro de mora</td><td data-l="Semáforo" class="nivel rojo"><span class="pt-n">rojo</span></td><td data-l="Acción">Recalibrar</td><td data-l="Rojos">2</td><td data-l="Ámbar">3</td></tr><tr><td data-l="Periodo">M05</td><td data-l="Escenario">Ruptura de variable</td><td data-l="Semáforo" class="nivel rojo"><span class="pt-n">rojo</span></td><td data-l="Acción">Revisar datos</td><td data-l="Rojos">1</td><td data-l="Ámbar">4</td></tr><tr><td data-l="Periodo">M06</td><td data-l="Escenario">Pérdida de poder</td><td data-l="Semáforo" class="nivel rojo"><span class="pt-n">rojo</span></td><td data-l="Acción">Redesarrollar</td><td data-l="Rojos">2</td><td data-l="Ámbar">0</td></tr></tbody></table></div></div></section><section class="sec" id="leer"><div class="col dividida">
+<div class="cab"><h2>Cómo leerlo</h2></div>
+<div class="cierre"><p class="rev">El modelo es una regresión logística con cinco variables de comportamiento, entrenada con 10,000 clientes.
+Los rangos de PSI y CSI se fijaron con la muestra de referencia. Un PSI menor a 0.1 se considera estable, entre 0.1 y 0.25 merece atención y mayor a 0.25 es un cambio importante.</p>
+<p class="rev">Los meses M01 a M06 son simulados: se arman reordenando clientes de la base con recetas de deriva documentadas en el README. Sirven para comprobar que el sistema detecta lo que se le inyecta, no para decir algo de una cartera real.</p></div></div></section><div class="pie"></div></main></body></html>

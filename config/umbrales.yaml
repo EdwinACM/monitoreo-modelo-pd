@@ -1,0 +1,47 @@
+# Umbrales de los semáforos. Cada indicador tiene un nivel ámbar y uno rojo.
+# "mayor" significa que un valor más alto es peor; el semáforo pasa a ámbar
+# cuando el valor llega al umbral ámbar y a rojo cuando llega al rojo.
+# Todo se puede cambiar aquí sin tocar el código.
+
+alfa_binomial: 0.05        # significancia de las pruebas binomiales (por banda se divide entre el número de bandas)
+intervalo_bootstrap: 0.95  # cobertura del intervalo de AUC, Gini y KS
+remuestras_bootstrap: 300
+max_variables_ruptura: 2   # si hay rojo en 1 o 2 variables, se sospecha de la fuente de datos; en más, de un cambio de población
+
+indicadores:
+  psi_puntuacion:
+    descripcion: PSI de la PD predicha contra la muestra de referencia
+    ambar: 0.10
+    rojo: 0.25
+  psi_variable_max:
+    descripcion: PSI más alto entre las variables del modelo
+    ambar: 0.10
+    rojo: 0.25
+  csi_abs_max:
+    descripcion: CSI más alto en valor absoluto (unidades de logit)
+    ambar: 0.05
+    rojo: 0.15
+  caida_gini:
+    descripcion: Gini de referencia menos Gini del periodo (puntos de Gini)
+    ambar: 0.05
+    rojo: 0.10
+  caida_ks:
+    descripcion: KS de referencia menos KS del periodo
+    ambar: 0.05
+    rojo: 0.10
+  desv_calibracion:
+    descripcion: Desviación relativa |observada / predicha - 1|. Solo cuenta si la prueba binomial global rechaza
+    ambar: 0.10
+    rojo: 0.20
+  bandas_rechazadas:
+    descripcion: Bandas de PD que la prueba binomial rechaza ahora y no se rechazaban en la referencia
+    ambar: 1
+    rojo: 3
+  desplazamiento_rangos_pp:
+    descripcion: Mayor cambio en puntos porcentuales del peso de una banda de PD
+    ambar: 5
+    rojo: 10
+  cambio_tasa_relativo:
+    descripcion: Cambio relativo de la tasa de incumplimiento contra la referencia
+    ambar: 0.15
+    rojo: 0.30

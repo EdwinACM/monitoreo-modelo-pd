@@ -1,0 +1,7 @@
+periodo,nombre,mezcla,deterioro,ruptura,ruido,descripcion,clientes,tasa_incumplimiento,uso_sep_medio,limite_medio,pct_mora_sep_mayor_0
+M01,Sin deriva,0.0,0.0,0.0,0.0,Muestra aleatoria de la reserva.,2000,0.223,0.4273227734072259,166855.0,0.2055
+M02,Sin deriva,0.0,0.0,0.0,0.0,Muestra aleatoria de la reserva.,2000,0.2225,0.41675318700561137,167070.0,0.243
+M03,Cambio de mezcla,1.2,0.0,0.0,0.0,Entran más clientes con uso alto de la línea y límite bajo.,2000,0.284,0.7362029692504853,101135.0,0.2785
+M04,Deterioro de mora,0.0,0.1,0.0,0.0,10% de los clientes que no incumplían pasan a incumplir (sintético).,2000,0.2895,0.4170071565877461,171108.0,0.216
+M05,Ruptura de variable,0.0,0.0,0.5,0.0,La mitad de los registros de mora_sep llega en cero.,2000,0.2245,0.4135163313786447,170270.0,0.113
+M06,Pérdida de poder,0.0,0.0,0.0,0.35,35% de las etiquetas se sustituye por un sorteo con la tasa base.,2000,0.2115,0.43504777110568377,167270.0,0.2515
